@@ -2,28 +2,24 @@ from PIL import ImageGrab
 import os
 import time
 
-# ----- Points ------
-
-x_pad = 364 
-y_pad = 136
-
-""" 
-All coordinates assume a screen resolution of 1280x1024, and Chrome 
-maximized with the Bookmarks Toolbar enabled.
-Down key has been hit 4 times to center play area in browser.
-x_pad = 156
-y_pad = 345
-Play area =  x_pad+1, y_pad+1, 796, 825
-"""
-
-def screenGrab():
+def screenGrab(x_pad,y_pad):
     box = (x_pad+1,y_pad+1,x_pad+637,y_pad+477)
     im = ImageGrab.grab(box)
-    im.save(os.getcwd() + '\\full_snap__' + str(int(time.time())) +
-'.png', 'PNG')
+    im.save('full_snap__' + str(int(time.time())) + '.png', format='PNG')
  
 def main():
     screenGrab()
  
 if __name__ == '__main__':
     main()
+
+def clear():
+    """
+    Clear all captured images in code folder.
+    """
+    files = os.listdir()
+    for file in files:
+        if 'snap' in file:
+            os.remove(file)
+    print('Trash files are clear')
+
