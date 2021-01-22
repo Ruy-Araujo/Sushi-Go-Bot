@@ -8,7 +8,7 @@ def screenGrab(x_pad,y_pad):
     im.save('full_snap__' + str(int(time.time())) + '.png', format='PNG')
  
 def main():
-    screenGrab()
+    screenGrab(354,167)
  
 if __name__ == '__main__':
     main()
@@ -23,3 +23,4 @@ def clear():
             os.remove(file)
     print('Trash files are clear')
 
+clear()

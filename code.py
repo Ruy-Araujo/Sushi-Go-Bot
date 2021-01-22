@@ -11,60 +11,26 @@ from pynput.mouse import Button, Controller
 Set x_pad y_pad whit your game screem zero point, it's in left-up coner.
 Run screenGrab() and look if image is correctly adjusted. 
 """
-x_pad = 314     
-y_pad = 170
+x_pad = 354     
+y_pad = 167
 
 # --------- Mause Comands -------------
 
 def leftClick():
-    if os.name == 'posix':
-        posix_leftClick()
-    elif os.name == 'nt':
-        nt_leftClick()
-
-def posix_leftClick():
     Controller().press(Button.left)
     Controller().release(Button.left)
-    print ("Click.")          #optional, for debugging purposes.  
-
-def nt_leftClick():
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,0,0)
-    time.sleep(.1)
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,0,0)
-    print ("Click.")          #optional, for debugging purposes.  
+    print ("Click.")          #optional, for debugging purposes.
 
 def mousePos(cord):
-    if os.name == 'posix':
-        posix_mousePos(cord)
-    elif os.name == 'nt':
-        nt_mousePos(cord)
-
-def posix_mousePos(cord):
     Controller().position = ((x_pad + cord[0], y_pad + cord[1]))
-
-def nt_mousePos(Cord):
-    win32api.SetCursorPos((x_pad + cord[0], y_pad + cord[1]))
      
 # ------- Capture Tools ----------
 
 def getCords():
-    if os.name == 'posix':
-        posix_getCords()
-    elif os.name == 'nt':
-        nt_getCords()
-        
-def posix_getCords():
     x,y = Controller().position         # Get the cursor position on Linux
     x = x - x_pad
     y = y - y_pad
     print(x,y)
-
-
-def nt_getCords():
-    x,y = win32api.GetCursorPos()		# Get the cursor position on Win32api
-    x = x - x_pad
-    y = y - y_pad
-    print (x,y)
 
 def capture():
     for i in range(6):
