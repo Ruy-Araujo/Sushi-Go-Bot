@@ -11,8 +11,8 @@ from pynput.mouse import Button, Controller
 Set x_pad y_pad whit your game screem zero point, it's in left-up coner.
 Run screenGrab() and look if image is correctly adjusted. 
 """
-x_pad = 354     
-y_pad = 167
+x_pad = 315     
+y_pad = 170
 
 # --------- Mause Comands -------------
 
@@ -117,5 +117,63 @@ def gunkanMaki():
     time.sleep(.1)
     rollSundari()
 
+def clearTables():
+    tables = cord.tablesCords()
+    for table in tables:
+        mousePos(tables[table])
+        leftClick()
+    time.sleep(.5)
+    
+def buyToppings(item):
+    cords = Cord.phoneMenu
+    mousePos(cords["menuPhone"])
+    leftClick()
+    time.sleep(.1)
+    mousePos(cords["menuToppings"]["toppingsButton"])
+    leftClick()
+    time.sleep(.1)
+    mousePos(cords["menuToppings"][item])
+    leftClick()
+    time.sleep(.1)
+    mousePos(cords["menuDelivery"]["normal"])
+    leftClick()
+    time.sleep(.1)
+
+def buyRice():
+    cords = Cord.phoneMenu
+    mousePos(cords["menuPhone"])
+    leftClick()
+    time.sleep(.1)
+    mousePos(cords["menuRice"]["riceButton"])
+    leftClick()
+    time.sleep(.1)
+    mousePos(cords["menuRice"]["rice"])
+    leftClick()
+    time.sleep(.1) 
+    mousePos(cords["menuDelivery"]["normal"])
+    leftClick()
+    time.sleep(.1)  
+
+def buySake():
+    cords = Cord.phoneMenu
+    mousePos(cords["menuPhone"])
+    leftClick()
+    time.sleep(.1)
+    mousePos(cords["menuSake"]["sakeButton"])
+    leftClick()
+    time.sleep(.1)
+    mousePos(cords["menuSake"]["sake"])
+    leftClick()
+    time.sleep(.1) 
+    mousePos(cords["menuDelivery"]["normal"])
+    leftClick()
+    time.sleep(.1)  
 
 
+
+"""
+onigiri()
+onigiri()
+onigiri()
+"""
+buyRice()
