@@ -22,5 +22,3 @@ def clear():
         if 'snap' in file:
             os.remove(file)
     print('Trash files are clear')
-
-clear()

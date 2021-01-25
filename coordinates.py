@@ -1,18 +1,20 @@
-# ----------- Food Stok -------------
+
 class Cord:
-     
+   
+# Atributes coordinates
+
+    # Food Stok 
     food = {
-        "shrimp" =  (40, 330),
-        "rice" =    (85, 330),
-        "nori" =    (40, 380),
-        "roe" =     (85, 380),
-        "salmon" =  (40, 440),
-        "unagi" =   (85, 440),
-        "sundari" = (195, 385) 
+        "shrimp" :  (40, 330),
+        "rice" :    (85, 330),
+        "nori" :    (40, 380),
+        "roe" :     (85, 380),
+        "salmon" :  (40, 440),
+        "unagi" :   (85, 440),
+        "sundari" : (195, 385) 
     }
     
-# --------- Plate Locations ---------
-
+    # Plate Locations
     tables = {
         "table_1" : (92, 200),
         "table_2" : (194,200),
@@ -22,8 +24,7 @@ class Cord:
         "table_6" : (594,200)
     }
     
-# --------- Phone Locations ---------
-    
+    # Phone Locations
     phoneMenu = {
         "menuPhone" : (545, 355),
         "menuToppings" : {
@@ -48,36 +49,23 @@ class Cord:
         }
     }
 
+
+    foodAvailability = {
+        "shrimp" :  (255, 222, 207),
+        "unagi" :   (209, 111, 32),
+        "nori" :    (76, 72, 35),
+        "fishEgg" : (245, 76, 0),
+        "salmon" :  (255, 180, 151),
+        "rice" :    (255, 255, 255),
+        "sake" :    (189, 202, 230)
+    }
+    
+# Methods
+
+
 """
 
 
 
-    def 
-
-
-    phone =   
-
-    menu_topping = 
-
-    
-
-    menu_rice = 
-    p_rice =    
-
-    menu_sake = 
-    b_sake =    
-
-    normal_deliv = 
-    xpress_deliv = 
-
-    
- 
-    
-    92,210
-    194,210
-    295,210
-    395,210
-    492,210
-    594,210
 
 """
