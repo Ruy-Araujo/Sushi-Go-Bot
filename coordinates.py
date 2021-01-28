@@ -17,7 +17,7 @@ class Cord:
     # Plate Locations
     tables = {
         "table_1" : (92, 200),
-        "table_2" : (194,200),
+        "table_2" : (181,204),
         "table_3" : (280,200),
         "table_4" : (395,200),
         "table_5" : (492,200),
@@ -29,43 +29,106 @@ class Cord:
         "menuPhone" : (545, 355),
         "menuToppings" : {
             "toppingsButton" : (545, 270),
-            "shrimp" : (495, 220),
-            "unagi" : (575, 215),
-            "nori" : (495, 275),
-            "fishEgg" : (575, 275),
-            "salmon" : (495, 335)
+            "exit" :    (595,335),
+            "shrimp" :  (495,220),
+            "unagi" :   (575,215),
+            "nori" :    (495,275),
+            "roe" : (575,275),
+            "salmon" :  (495,335)
         },
         "menuRice": {
-            "riceButton": (545, 295),
-            "rice" : (545, 280)
+            "riceButton": (545,295),
+            "exit" : (580,335),
+            "rice" : (545,280)
         },
         "menuSake": {
-            "sakeButton" : (545, 315),    
-            "sake" : (545, 275)
+            "sakeButton" : (545, 315), 
+            "exit" : (580,335),   
+            "sake" : (545,275)
         },
         "menuDelivery" : {
-            "normal" : (495, 295),
-            "express" : (575, 295)
+            "normal" : (495,295),
+            "express" : (575,295)
         }
     }
 
-
     foodAvailability = {
-        "shrimp" :  (255, 222, 207),
-        "unagi" :   (209, 111, 32),
-        "nori" :    (76, 72, 35),
-        "fishEgg" : (245, 76, 0),
-        "salmon" :  (255, 180, 151),
-        "rice" :    (255, 255, 255),
-        "sake" :    (189, 202, 230)
+        "shrimp" :  (218, 246, 254),
+        "unagi" :   (218, 246, 254),
+        "nori" :    (218, 246, 254),
+        "roe" : (218, 246, 254),
+        "salmon" :  (218, 246, 254),
+        "rice" :    (236, 166, 171),
+        "sake" :    (255, 205, 156)
     }
-    
+
+    foodAvailabilityLocation = {
+        "shrimp" :  (522,217),
+        "unagi" :   (604,221),
+        "nori" :    (520,276),
+        "roe" : (593,277),
+        "salmon" :  (518,332),
+        "rice" :    (567,280),
+        "sake" :    (562,273)
+    }
+
+    stok = {
+        "money" :   0,
+        "shrimp" :  5,
+        "rice" :    10,
+        "nori" :    10,
+        "roe" :     10,
+        "salmon" :  5,
+        "unagi" :   5,
+        "sake" :    2   
+    }   
+
+    clients = {
+        "table1" : {
+            "foodLocal" : (54,70),
+            "onigiri" : (107, 107, 79),
+            "californiaRoll" : (187, 190, 178),
+            "gunkanMaki" : (67, 62, 27)
+        },
+         "table2" : {
+            "foodLocal" : (154,70),
+            "onigiri" : (108, 108, 81),
+            "californiaRoll" : (187, 190, 178),
+            "gunkanMaki" : (67, 62, 27)
+        },
+         "table3" : {
+            "foodLocal" : (256,70),
+            "onigiri" : (107, 107, 79),
+            "californiaRoll" : (187, 190, 178),
+            "gunkanMaki" : (67, 62, 27)
+        },
+         "table4" : {
+            "foodLocal" : (358,70), 
+            "onigiri" : (67, 62, 27),
+            "californiaRoll" : (193, 195, 184),
+            "gunkanMaki" : (67, 62, 27)
+        },
+         "table5" : {
+            "foodLocal" : (457,70),
+            "onigiri" : (108, 108, 81),
+            "californiaRoll" : (187, 190, 178),
+            "gunkanMaki" : (67, 62, 27)
+        },
+         "table6" : {
+            "foodLocal" : (560,70),
+            "onigiri" : (67, 62, 27),
+            "californiaRoll" : (0),
+            "gunkanMaki" : (67, 62, 27)
+        }
+    }
+
 # Methods
 
 
+    
 """
 
 
-
+        
 
 """

@@ -3,26 +3,27 @@ from coordinates import *
 import os
 import time
 from pynput.mouse import Button, Controller
+from quickGrab import *
 
 # --------- Points -----------
 """
 Set x_pad y_pad whit your game screem zero point, it's in left-up coner.
 Run screenGrab() and look if image is correctly adjusted. 
 """
-x_pad = 315     
-y_pad = 170
+x_pad = 363      
+y_pad = 206
 
 # Mause Comands
 
 def leftClick():
     Controller().press(Button.left)
     Controller().release(Button.left)
-    print ("Click.")          #optional, for debugging purposes.
+    #print ("Click.")          #optional, for debugging purposes.
 
 def mousePos(cord):
     Controller().position = ((x_pad + cord[0], y_pad + cord[1]))
      
-# Capture Tools 
+# ---- Capture Tools 
 
 def screenGrab(x_pad,y_pad):
     box = (x_pad+1,y_pad+1,x_pad+637,y_pad+477)
@@ -45,35 +46,42 @@ def getCords():
     x = x - x_pad
     y = y - y_pad
     print(x,y)
+    return (x,y)
 
 def capture():
     for i in range(6):
         time.sleep(1.5)
         getCords()
 
-def getStatus(item):
-    sg = screenGrab(x_pad,y_pad)
-    cords, avaib = Cord.phoneMenu, Cord.foodAvailability
-    if item in ('shrimp','unagi','nori','fishEgg','salmon'):
-        pixel = sg.getpixel(cords["menuToppings"][item])
-        if pixel == avaib[item]:
-            return True
-        else:
-            return False
-    elif item == 'rice':
-        pixel = sg.getpixel(cords["menuRice"][item])
-        if pixel == avaib[item]:
-            return True
-        else:
-            return False
-    elif item == 'sake':
-        pixel = sg.getpixel(cords["menuSake"][item])
-        if pixel == avaib[item]:
-            return True
-        else:
-            return False
+def status(item):
+    """
+    Return if item is avalieble or not 
     
-# Start Game 
+    Itens list:
+    - shrimp
+    - unagi
+    - nori
+    - roe
+    - salmon
+    - rice
+    - sake 
+    """
+    sg = screenGrab(x_pad,y_pad)
+    cords, avaib = Cord.foodAvailabilityLocation, Cord.foodAvailability
+    pixel = sg.getpixel(cords[item])
+    if pixel == avaib[item]:
+        print(f"{item} is avalible to buy")
+        return True
+    else:
+        print(f"{item} is NOT avalible to buy")
+        return False
+
+def getPixel(tuple):
+    sg = screenGrab(x_pad,y_pad)
+    print(sg.getpixel(tuple))
+    return sg.getpixel(tuple)
+
+# ---- Start Game 
 
 def startGame():
     #location of start button
@@ -96,10 +104,12 @@ def startGame():
     leftClick()
     time.sleep(.1)
 
-# Cooking
+# ---- Cooking
 
 def makeFood(food):
-
+    """
+    Recipes onigiri, californiaRoll, gunkaMaki
+    """
     def rollSundari():
         mousePos(Cord.food['sundari'])
         leftClick()
@@ -117,7 +127,9 @@ def makeFood(food):
         time.sleep(.1)
         mousePos(Cord.food['nori'])
         leftClick()
-        
+        Cord.stok['rice'] -= 2
+        Cord.stok['nori'] -= 1
+
     elif food == 'californiaRoll':
         """
         Recipe: 1 rice 1 nori 1 roe.
@@ -130,6 +142,9 @@ def makeFood(food):
         time.sleep(.1)
         mousePos(Cord.food['roe'])
         leftClick() 
+        Cord.stok['rice'] -= 1
+        Cord.stok['nori'] -= 1
+        Cord.stok['roe'] -= 1
 
     elif food == 'gunkanMaki':
         """
@@ -146,46 +161,113 @@ def makeFood(food):
         time.sleep(.1)
         mousePos(Cord.food['roe'])
         leftClick()
+        Cord.stok['rice'] -= 1
+        Cord.stok['nori'] -= 1
+        Cord.stok['roe'] -= 2
       
     time.sleep(.1)
     rollSundari()
-
-
-cord = Cord()
+    print(f'make {food}') # debug
 
 def clearTables():
-    tables = cord.tablesCords()
+    tables = Cord.tables
     for table in tables:
         mousePos(tables[table])
+        time.sleep(.3)
         leftClick()
-    time.sleep(.5)
+    print('tables are clear')
     
-def buyToppings(item):
+def buy(item):
+    """
+    Buy itens.
+    Itens list:
+    - shrimp
+    - unagi
+    - nori
+    - roe
+    - salmon
+    - rice
+    - sake
+    """
     cords = Cord.phoneMenu
     mousePos(cords["menuPhone"])
     leftClick()
     time.sleep(.1)
-    mousePos(cords["menuToppings"]["toppingsButton"])
-    leftClick()
-    time.sleep(.1)
-    mousePos(cords["menuToppings"][item])
-    leftClick()
-    time.sleep(.1)
-    mousePos(cords["menuDelivery"]["normal"])
-    leftClick()
-    time.sleep(.1)
+    if item in ("shrimp","unagi","nori","roe","salmon"):
+        mousePos(cords["menuToppings"]["toppingsButton"])
+        leftClick()
+        time.sleep(.3)
+    elif item == "rice":
+        mousePos(cords["menuRice"]["riceButton"])
+        leftClick()
+        time.sleep(.3)
+    elif item == "sake":
+        mousePos(cords["menuSake"]["sakeButton"])
+        leftClick()
+        time.sleep(.3)
+    if status(item):
+        if item in ("shrimp","unagi","nori","roe","salmon"):
+            mousePos(cords["menuToppings"][item])
+            leftClick()
+            time.sleep(.1)
+            if item in ("shrimp","unagi"):
+                Cord.stok[item] += 5
+                Cord.stok["money"] -= 350  
+            if item == "nori":
+                Cord.stok["nori"] += 10
+                Cord.stok["money"] -= 100
+            if item == "roe":
+                Cord.stok["roe"] += 10
+                Cord.stok["money"] -= 200
+            if item == "salmon":
+                Cord.stok["salmon"] += 5
+                Cord.stok["money"] -= 300
+        elif item == "rice":
+            mousePos(cords["menuRice"]["rice"])
+            leftClick()
+            time.sleep(.1) 
+            Cord.stok["rice"] += 10
+            Cord.stok["money"] -= 100
+        elif item == "sake":
+            mousePos(cords["menuSake"]["sake"])
+            leftClick()
+            time.sleep(.1) 
+            Cord.stok["salmon"] += 2
+            Cord.stok["money"] -= 100
+        mousePos(cords["menuDelivery"]["normal"])
+        leftClick()
+        time.sleep(.1)
+    else:                   
+        print(f'{item} is not avaliable')
+        if item in ("shrimp","unagi","nori","roe","salmon"):
+            mousePos(cords["menuToppings"]["exit"])
+            leftClick()
+            time.sleep(.1)
+        else:
+            mousePos(cords["menuRice"]["exit"])
+            leftClick()
+            time.sleep(.1)
 
+def checkStok():
+    for food in Cord.stok:
+        print(f"{food} has {Cord.stok[food]} left")
+        if Cord.stok[food] <= 3:
+            if food == "money":
+                pass
+            elif food == "sake":
+                pass
+            else:
+                buy(food)    
+                print(f'Buy {food}')
+
+"""
 def buyRice():
     cords = Cord.phoneMenu
     mousePos(cords["menuPhone"])
     leftClick()
     time.sleep(.1)
-    mousePos(cords["menuRice"]["riceButton"])
-    leftClick()
-    time.sleep(.1)
-    mousePos(cords["menuRice"]["rice"])
-    leftClick()
-    time.sleep(.1) 
+   
+   
     mousePos(cords["menuDelivery"]["normal"])
     leftClick()
     time.sleep(.1)  
@@ -195,32 +277,70 @@ def buySake():
     mousePos(cords["menuPhone"])
     leftClick()
     time.sleep(.1)
-    mousePos(cords["menuSake"]["sakeButton"])
-    leftClick()
-    time.sleep(.1)
-    mousePos(cords["menuSake"]["sake"])
-    leftClick()
-    time.sleep(.1) 
+    
+    
     mousePos(cords["menuDelivery"]["normal"])
     leftClick()
     time.sleep(.1)  
-
-
-
-
+"""
 
 #startGame()
 #time.sleep(1)
-"""for _ in range(3):
+
+"""
+for _ in range(3):
+    checkStok()
     makeFood('onigiri')
+    time.sleep(1)
+    checkStok()
     makeFood('californiaRoll')
-    makeFood('gunkanMaki')"""
+    time.sleep(1)
+    checkStok()
+    makeFood('gunkanMaki')
+    time.sleep(1)
+    clearTables()
+"""
 
-print(getStatus('shrimp'))
-print(getStatus('unagi'))
-print(getStatus('nori'))
-print(getStatus('fishEgg'))
-print(getStatus('salmon'))
-print(getStatus('rice'))
-print(getStatus('sake'))
+"""
+print(status('shrimp'))
+print(status('unagi'))
+print(status('nori'))
+print(status('roe'))
+print(status('salmon'))
+print(status('rice'))
+print(status('sake'))
+"""
 
+"""
+sg = screenGrab(x_pad,y_pad)
+print(sg.getpixel(getCords()))
+"""
+
+#getCords()
+
+#clearTables()
+
+#buy("rice")
+
+def getCliente():
+    for table in Cord.clients:
+        for item in Cord.clients[table]:
+            if item == "foodLocal":
+                print(f"{table} - {Cord.clients[table][item]}")
+                getPixel((Cord.clients[table][item]))
+                main()
+
+#getCords()
+"""clear()
+getCliente()"""
+
+def main():
+    #startGame()
+    #time.sleep(1)
+    for table in Cord.clients:
+        for food in Cord.clients[table]: 
+           verify = getPixel((Cord.clients[table][food]))
+           if verify == food:
+               print(f'is it {food}')
+
+main()
