@@ -1,6 +1,6 @@
 # Sushi-Go Bot
 
-Computer Vision-based game bot written in python.
+Um bot baseado em Computer Vision escrito em python.
 
 ![](midia/cover.gif)
 
@@ -28,6 +28,8 @@ Numpy 1.19.5
 
 Como instalar e configurar o projeto.
 
+**Acesse o jogo [aqui](https://www.miniclip.com/games/sushi-go-round/pt/focus/)**
+
 Baixe e instale as bibliotecas necessarias através do PIP:
 
 ```
@@ -49,7 +51,7 @@ Execute o arquivo bot.py.
 
 * **Ruy Araujo** - *Projeto Inicial* - [github](https://github.com/Ruy-Araujo)
 
-<em>Baseado no artigo de [Chris Kiehl](https://code.tutsplus.com/tutorials/how-to-build-a-python-bot-that-can-play-web-games--active-11117).<em> 
+*Baseado no artigo de [Chris Kiehl](https://code.tutsplus.com/tutorials/how-to-build-a-python-bot-that-can-play-web-games--active-11117).*
 
 Você também pode ver a lista de todos os [colaboradores](https://github.com/usuario/projeto/colaboradores) que participaram deste projeto.
 
