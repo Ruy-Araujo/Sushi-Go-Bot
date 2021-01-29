@@ -4,7 +4,7 @@ class Cord:
 # Atributes coordinates
 
     # Food Stok 
-    food = {
+    foodCord = {
         "shrimp" :  (40, 330),
         "rice" :    (85, 330),
         "nori" :    (40, 380),
@@ -14,17 +14,30 @@ class Cord:
         "sundari" : (195, 385) 
     }
     
-    # Plate Locations
-    tables = {
-        "table_1" : (92, 200),
-        "table_2" : (181,204),
-        "table_3" : (280,200),
-        "table_4" : (395,200),
-        "table_5" : (492,200),
-        "table_6" : (594,200)
+    foodId = {
+        8587 : "onigiri",
+        7442 : "californiaRoll",
+        3930 : "gunkanMaki"
+    }
+
+    plates = {
+        "table1" : (92, 200),
+        "table2" : (181,204),
+        "table3" : (280,200),
+        "table4" : (395,200),
+        "table5" : (492,200),
+        "table6" : (594,200)
     }
     
-    # Phone Locations
+    orders = {
+        "table1" : False,
+        "table2" : False,
+        "table3" : False,
+        "table4" : False,
+        "table5" : False,
+        "table6" : False
+    }
+
     phoneMenu = {
         "menuPhone" : (545, 355),
         "menuToppings" : {
@@ -83,52 +96,12 @@ class Cord:
         "sake" :    2   
     }   
 
-    clients = {
-        "table1" : {
-            "foodLocal" : (54,70),
-            "onigiri" : (107, 107, 79),
-            "californiaRoll" : (187, 190, 178),
-            "gunkanMaki" : (67, 62, 27)
-        },
-         "table2" : {
-            "foodLocal" : (154,70),
-            "onigiri" : (108, 108, 81),
-            "californiaRoll" : (187, 190, 178),
-            "gunkanMaki" : (67, 62, 27)
-        },
-         "table3" : {
-            "foodLocal" : (256,70),
-            "onigiri" : (107, 107, 79),
-            "californiaRoll" : (187, 190, 178),
-            "gunkanMaki" : (67, 62, 27)
-        },
-         "table4" : {
-            "foodLocal" : (358,70), 
-            "onigiri" : (67, 62, 27),
-            "californiaRoll" : (193, 195, 184),
-            "gunkanMaki" : (67, 62, 27)
-        },
-         "table5" : {
-            "foodLocal" : (457,70),
-            "onigiri" : (108, 108, 81),
-            "californiaRoll" : (187, 190, 178),
-            "gunkanMaki" : (67, 62, 27)
-        },
-         "table6" : {
-            "foodLocal" : (560,70),
-            "onigiri" : (67, 62, 27),
-            "californiaRoll" : (0),
-            "gunkanMaki" : (67, 62, 27)
-        }
+    clientOrder = {
+        "table1" : (24,58),
+        "table2" : (125,58),
+        "table3" : (226,58),
+        "table4" : (327,58),
+        "table5" : (428,58),
+        "table6" : (529,58)
     }
 
-# Methods
-
-
-    
-"""
-
-
-        
-
-"""

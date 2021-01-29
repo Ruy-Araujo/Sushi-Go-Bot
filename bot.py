@@ -1,13 +1,11 @@
-from PIL import ImageGrab
-from coordinates import *
-import os
-import time
+from PIL import ImageGrab,ImageOps
 from pynput.mouse import Button, Controller
-from quickGrab import *
-
+import os,time
+from numpy import *
+from coordinates import *
 # --------- Points -----------
 """
-Set x_pad y_pad whit your game screem zero point, it's in left-up coner.
+Set x_pad y_pad whit your game screem zero point, run getCords() in left-up coner.
 Run screenGrab() and look if image is correctly adjusted. 
 """
 x_pad = 363      
@@ -81,6 +79,19 @@ def getPixel(tuple):
     print(sg.getpixel(tuple))
     return sg.getpixel(tuple)
 
+def getSeat(table):
+    """Return cliet order ID"""
+    leftCorn = list(Cord.clientOrder[table])
+    leftCorn[0] += x_pad
+    leftCorn[1] += y_pad
+    box = (leftCorn[0],leftCorn[1],leftCorn[0]+58,leftCorn[1]+15)
+    im = ImageOps.grayscale(ImageGrab.grab(box))
+    a = array(im.getcolors())
+    a = a.sum()
+    #im.show()    # Debug
+    #print(f"Id of order in {table} is: {a}")
+    return a
+
 # ---- Start Game 
 
 def startGame():
@@ -111,7 +122,7 @@ def makeFood(food):
     Recipes onigiri, californiaRoll, gunkaMaki
     """
     def rollSundari():
-        mousePos(Cord.food['sundari'])
+        mousePos(Cord.foodCord['sundari'])
         leftClick()
         time.sleep(.8)
 
@@ -119,13 +130,13 @@ def makeFood(food):
         """
         Recipe: 2 rice 1 nori.
         """
-        mousePos(Cord.food['rice'])
+        mousePos(Cord.foodCord['rice'])
         leftClick()
         time.sleep(.1)
-        mousePos(Cord.food['rice'])
+        mousePos(Cord.foodCord['rice'])
         leftClick()
         time.sleep(.1)
-        mousePos(Cord.food['nori'])
+        mousePos(Cord.foodCord['nori'])
         leftClick()
         Cord.stok['rice'] -= 2
         Cord.stok['nori'] -= 1
@@ -134,13 +145,13 @@ def makeFood(food):
         """
         Recipe: 1 rice 1 nori 1 roe.
         """
-        mousePos(Cord.food['rice'])
+        mousePos(Cord.foodCord['rice'])
         leftClick()
         time.sleep(.1)
-        mousePos(Cord.food['nori'])
+        mousePos(Cord.foodCord['nori'])
         leftClick()
         time.sleep(.1)
-        mousePos(Cord.food['roe'])
+        mousePos(Cord.foodCord['roe'])
         leftClick() 
         Cord.stok['rice'] -= 1
         Cord.stok['nori'] -= 1
@@ -150,16 +161,16 @@ def makeFood(food):
         """
         Recipe: 1 rice 1 nori 2 roe.
         """
-        mousePos(Cord.food['rice'])
+        mousePos(Cord.foodCord['rice'])
         leftClick()
         time.sleep(.1)
-        mousePos(Cord.food['nori'])
+        mousePos(Cord.foodCord['nori'])
         leftClick()
         time.sleep(.1)
-        mousePos(Cord.food['roe'])
+        mousePos(Cord.foodCord['roe'])
         leftClick()
         time.sleep(.1)
-        mousePos(Cord.food['roe'])
+        mousePos(Cord.foodCord['roe'])
         leftClick()
         Cord.stok['rice'] -= 1
         Cord.stok['nori'] -= 1
@@ -167,15 +178,15 @@ def makeFood(food):
       
     time.sleep(.1)
     rollSundari()
+    time.sleep(1)
     print(f'make {food}') # debug
 
-def clearTables():
-    tables = Cord.tables
-    for table in tables:
-        mousePos(tables[table])
-        time.sleep(.3)
-        leftClick()
-    print('tables are clear')
+def clearTable(table):
+    plate = Cord.plates[table]
+    mousePos(plate)
+    time.sleep(.1)
+    leftClick()
+    print(f'{table} are clear')
     
 def buy(item):
     """
@@ -236,9 +247,10 @@ def buy(item):
             Cord.stok["money"] -= 100
         mousePos(cords["menuDelivery"]["normal"])
         leftClick()
-        time.sleep(.1)
+        time.sleep(1)
+        return True
     else:                   
-        print(f'{item} is not avaliable')
+        print(f'{item} is not avaliable to buy')
         if item in ("shrimp","unagi","nori","roe","salmon"):
             mousePos(cords["menuToppings"]["exit"])
             leftClick()
@@ -247,100 +259,35 @@ def buy(item):
             mousePos(cords["menuRice"]["exit"])
             leftClick()
             time.sleep(.1)
+        return False
 
 def checkStok():
     for food in Cord.stok:
         print(f"{food} has {Cord.stok[food]} left")
-        if Cord.stok[food] <= 3:
+        if Cord.stok[food] <= 4:
             if food == "money":
                 pass
             elif food == "sake":
                 pass
             else:
-                buy(food)    
+                buy(food)  
                 print(f'Buy {food}')
-
-"""
-def buyRice():
-    cords = Cord.phoneMenu
-    mousePos(cords["menuPhone"])
-    leftClick()
-    time.sleep(.1)
-   
-   
-    mousePos(cords["menuDelivery"]["normal"])
-    leftClick()
-    time.sleep(.1)  
-
-def buySake():
-    cords = Cord.phoneMenu
-    mousePos(cords["menuPhone"])
-    leftClick()
-    time.sleep(.1)
-    
-    
-    mousePos(cords["menuDelivery"]["normal"])
-    leftClick()
-    time.sleep(.1)  
-"""
-
-#startGame()
-#time.sleep(1)
-
-"""
-for _ in range(3):
-    checkStok()
-    makeFood('onigiri')
-    time.sleep(1)
-    checkStok()
-    makeFood('californiaRoll')
-    time.sleep(1)
-    checkStok()
-    makeFood('gunkanMaki')
-    time.sleep(1)
-    clearTables()
-"""
-
-"""
-print(status('shrimp'))
-print(status('unagi'))
-print(status('nori'))
-print(status('roe'))
-print(status('salmon'))
-print(status('rice'))
-print(status('sake'))
-"""
-
-"""
-sg = screenGrab(x_pad,y_pad)
-print(sg.getpixel(getCords()))
-"""
-
-#getCords()
-
-#clearTables()
-
-#buy("rice")
-
-def getCliente():
-    for table in Cord.clients:
-        for item in Cord.clients[table]:
-            if item == "foodLocal":
-                print(f"{table} - {Cord.clients[table][item]}")
-                getPixel((Cord.clients[table][item]))
-                main()
-
-#getCords()
-"""clear()
-getCliente()"""
-
+                
 def main():
-    #startGame()
-    #time.sleep(1)
-    for table in Cord.clients:
-        for food in Cord.clients[table]: 
-           verify = getPixel((Cord.clients[table][food]))
-           if verify == food:
-               print(f'is it {food}')
+    startGame()
+    time.sleep(1)
+    while True:
+        for table in Cord.clientOrder:
+            order = getSeat(table)
+            if order in (8587,7442,3930):
+                if not Cord.orders[table]:         
+                    checkStok()
+                    makeFood(Cord.foodId[order])
+                    Cord.orders[table] = True
+            else:
+                print (f"{table} unoccupied")
+                clearTable(table)
+                Cord.orders[table] = False
+        time.sleep(1)
 
 main()
