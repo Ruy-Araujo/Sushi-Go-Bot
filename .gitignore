@@ -1,7 +1,10 @@
 # Ignore this
 *
 
-
 # but not this
 !*.py
 !*.gitignore
+!*.md
+!midia/
+!cover.gif
+

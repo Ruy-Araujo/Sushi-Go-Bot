@@ -24,6 +24,9 @@ def mousePos(cord):
 # ---- Capture Tools 
 
 def screenGrab(x_pad,y_pad):
+    """
+    Return playable area.
+    """
     box = (x_pad+1,y_pad+1,x_pad+637,y_pad+477)
     im = ImageGrab.grab(box)
     #im.save('full_snap__' + str(int(time.time())) + '.png', format='PNG')
@@ -31,7 +34,7 @@ def screenGrab(x_pad,y_pad):
 
 def clear():
     """
-    Clear all captured images in code folder.
+    Clear all captured images in main code folder.
     """
     files = os.listdir()
     for file in files:
@@ -40,20 +43,26 @@ def clear():
     print('Trash files are clear')
 
 def getCords():
-    x,y = Controller().position         # Get the cursor position on Linux
+    """
+    Get actual mouse location based in relative game window.
+    """
+    x,y = Controller().position         #
     x = x - x_pad
     y = y - y_pad
     print(x,y)
     return (x,y)
 
 def capture():
+    """
+    Capture multiple cords in same time.
+    """
     for i in range(6):
         time.sleep(1.5)
         getCords()
 
 def status(item):
     """
-    Return if item is avalieble or not 
+    Return if a item is avalieble or not. 
     
     Itens list:
     - shrimp
@@ -75,12 +84,17 @@ def status(item):
         return False
 
 def getPixel(tuple):
+    """
+    Return color of pixel based in x,y. 
+    """
     sg = screenGrab(x_pad,y_pad)
     print(sg.getpixel(tuple))
     return sg.getpixel(tuple)
 
 def getSeat(table):
-    """Return cliet order ID"""
+    """
+    Return cliet order ID
+    """
     leftCorn = list(Cord.clientOrder[table])
     leftCorn[0] += x_pad
     leftCorn[1] += y_pad
@@ -95,6 +109,9 @@ def getSeat(table):
 # ---- Start Game 
 
 def startGame():
+    """
+    Collection of items to start the game.
+    """
     #location of start button
     mousePos((310, 202))
     leftClick()
@@ -182,6 +199,9 @@ def makeFood(food):
     print(f'make {food}') # debug
 
 def clearTable(table):
+    """
+    Clear table based in table position x,y.
+    """
     plate = Cord.plates[table]
     mousePos(plate)
     time.sleep(.1)
@@ -190,7 +210,8 @@ def clearTable(table):
     
 def buy(item):
     """
-    Buy itens.
+    Buy itens in shop fone.
+
     Itens list:
     - shrimp
     - unagi
@@ -262,6 +283,9 @@ def buy(item):
         return False
 
 def checkStok():
+    """
+    Check if stok is low and if's buy that item.
+    """
     for food in Cord.stok:
         print(f"{food} has {Cord.stok[food]} left")
         if Cord.stok[food] <= 4:
